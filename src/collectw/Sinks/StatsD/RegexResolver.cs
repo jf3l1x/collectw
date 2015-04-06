@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace CollectW.Sinks.StatsD
 {
-    public class RegexResolver : IResolveCounterType
+    public class RegexResolver 
     {
         private readonly Dictionary<string, StatsDTypes> _cached = new Dictionary<string, StatsDTypes>();
         private readonly Dictionary<Regex, StatsDTypes> _resolvers = new Dictionary<Regex, StatsDTypes>();

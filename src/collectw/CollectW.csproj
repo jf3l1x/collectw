@@ -56,8 +56,11 @@
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.0\LibLog.cs" />
     <Compile Include="Collector.cs" />
-    <Compile Include="CounterDefinitionSuppliers\JsonConfigFile.cs" />
+    <Compile Include="Config\ConfigFileDefinitions.cs" />
+    <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Config\ObjectFactory.cs" />
     <Compile Include="Extensions\CounterDefinitionExtension.cs" />
+    <Compile Include="Helpers\Unsubscriber.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Model\CounterDefinition.cs" />
     <Compile Include="Model\Reader.cs" />
@@ -66,7 +69,6 @@
     <Compile Include="Services\ISupplyCounterDefinitions.cs" />
     <Compile Include="Sinks\ConsoleSink.cs" />
     <Compile Include="Sinks\FileSink.cs" />
-    <Compile Include="Sinks\StatsD\IResolveCounterType.cs" />
     <Compile Include="Sinks\StatsD\RegexResolver.cs" />
     <Compile Include="Sinks\StatsD\StatsDSink.cs" />
     <Compile Include="Sinks\StatsD\StatsDTypes.cs" />

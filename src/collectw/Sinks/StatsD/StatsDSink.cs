@@ -10,23 +10,26 @@ namespace CollectW.Sinks.StatsD
     public class StatsDSink : ISendInfo, IDisposable
     {
         private static readonly ILog Logger = LogProvider.For<StatsDSink>();
-        private readonly StatsdUDP _connection;
-        private readonly IResolveCounterType _resolver;
-        private readonly Statsd _sender;
+        private StatsdUDP _connection;
+        private RegexResolver _resolver;
+        private Statsd _sender;
 
-        public StatsDSink(IResolveCounterType resolver, Uri endpoint, int maxUdpPacket = 512)
+        public StatsDSink(RegexResolver resolver, Uri uri,int maxUdpPacketSize=512)
         {
-            if (resolver == null)
-            {
-                Logger.Error("a null resolver was passed to StatusDSink! throwing argument exception!");
-                throw new ArgumentException("resolver cannot be null!");
-            }
-            _connection = new StatsdUDP(endpoint.Host, endpoint.Port, maxUdpPacket);
-            _sender = new Statsd(_connection);
             _resolver = resolver;
+            _connection = new StatsdUDP(uri.Host, uri.Port, maxUdpPacketSize);
         }
 
+        public StatsDSink()
+        {
+            
+        }
         public void Dispose()
+        {
+            DisposeDependencies();
+        }
+
+        private void DisposeDependencies()
         {
             if (_connection != null)
             {
@@ -62,6 +65,28 @@ namespace CollectW.Sinks.StatsD
                 }
             });
 
+        }
+
+        public void Configure(dynamic configuration)
+        {
+            try
+            {
+                DisposeDependencies();
+                //IResolveCounterType resolver, Uri endpoint, int maxUdpPacket = 512
+                _connection = new StatsdUDP(configuration.Host.ToString(), (int)configuration.Port, (int)configuration.MaxUdpPacket);
+                _sender = new Statsd(_connection);
+                _resolver = new RegexResolver();
+                foreach (var map in configuration.CounterTypeMaps)
+                {
+                    _resolver.Add(map.Regex.ToString(), Enum.Parse(typeof(StatsDTypes),map.Type.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorFormat("Error configuring StatsDSink, check your configuration file! Exception:{@exception}",ex);
+                throw;
+            }
+         
         }
     }
 }

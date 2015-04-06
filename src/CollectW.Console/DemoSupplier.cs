@@ -42,5 +42,15 @@ namespace CollectW.Console
                CollectInterval = 700
            };
         }
+
+        public void Configure(dynamic configuration)
+        {
+            
+        }
+
+        public IDisposable Subscribe(IObserver<IEnumerable<CounterDefinition>> observer)
+        {
+            return null;
+        }
     }
 }

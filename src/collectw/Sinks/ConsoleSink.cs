@@ -8,8 +8,13 @@ namespace CollectW.Sinks
     {
         public Task Send(string counter, float value)
         {
-            Console.WriteLine("[{0}] - {1} : {2} ", DateTimeOffset.UtcNow, counter, value);
+            Console.WriteLine("[{0:O}] - {1} : {2} ", DateTimeOffset.UtcNow, counter, value);
             return Task.FromResult(0);
+        }
+
+        public void Configure(dynamic configuration)
+        {
+            
         }
     }
 }

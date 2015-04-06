@@ -1,23 +1,56 @@
-﻿[
-    {
+﻿{
+    "CounterDefinition": {
+        "Type": "ConfigFileDefinitions",
+        "Configuration": [
+            {
 
-        "CategorieName": "Processor",
-        "CounterName": "% Processor Time",
-        "InstanceName": "2",
-        "CollectInterval": 5000
-    },
-    {
+                "CategorieName": "Processor",
+                "CounterName": "% Processor Time",
+                "InstanceName": "2",
+                "CollectInterval": 5000
+            },
+            {
 
-        "CategorieName": "Processor",
-        "CounterName": "% Processor Time",
-        "InstanceName": "1",
-        "CollectInterval": 5000
+                "CategorieName": "Processor",
+                "CounterName": "% Processor Time",
+                "InstanceName": "1",
+                "CollectInterval": 5000
+            },
+            {
+
+                "CategorieName": "Processor",
+                "CounterName": "% Processor Time",
+                "InstanceName": "_Total",
+                "CollectInterval": 1500
+            }
+        ]
+
     },
-    {
-       
-        "CategorieName" :  "Processor",
-        "CounterName" :  "% Processor Time",
-        "InstanceName" :  "_Total",
-        "CollectInterval" :  1500
-    }
-]
+    "Sinks": [
+        {
+            "Type": "StatsDSink",
+            "Configuration": {
+                "Host": "elk.aidev.biz",
+                "Port": 8125,
+                "MaxUdpPacket": 512,
+                "CounterTypeMaps": [
+                    {
+                        "Regex": ".*",
+                        "Type": "Gauge"
+                    }
+                ]
+            }
+        },
+        {
+            "Type": "FileSink",
+            "Configuration": {
+                "Path": "c:\\temp\\perfcount.txt",
+                "FlushInterval": 1000
+            }
+        },
+        {
+            "Type": "ConsoleSink",
+            "Configuration": {}
+        }
+    ]
+}

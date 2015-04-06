@@ -11,8 +11,11 @@ namespace CollectW
     {
         private static readonly ILog Logger = LogProvider.For<Collector>();
         private readonly Dictionary<TimeSpan, Interval> _counters = new Dictionary<TimeSpan, Interval>();
+        private readonly IEnumerable<ISendInfo> _sinks;
+
         public Collector(ISupplyCounterDefinitions definitionSupplier, IEnumerable<ISendInfo> sinks)
         {
+            _sinks = sinks;
             try
             {
                 if (definitionSupplier == null)
@@ -22,7 +25,7 @@ namespace CollectW
                 }
                 foreach (CounterDefinition definition in definitionSupplier.CreateDefinitions())
                 {
-                    AddReader(definition,sinks);
+                    AddReader(definition, sinks);
                 }
             }
             catch (Exception ex)
@@ -39,6 +42,13 @@ namespace CollectW
             {
                 counter.Dispose();
             }
+            foreach (ISendInfo sink in _sinks)
+            {
+                if (sink is IDisposable)
+                {
+                    ((IDisposable) sink).Dispose();
+                }
+            }
         }
 
         private void AddReader(CounterDefinition definition, IEnumerable<ISendInfo> sinks)
@@ -51,13 +61,14 @@ namespace CollectW
                     interval = new Interval(definition.CollectIntervalSpan, sinks);
                     _counters.Add(definition.CollectIntervalSpan, interval);
                 }
-                interval.AddDefinition(definition);    
+                interval.AddDefinition(definition);
             }
             else
             {
-                Logger.ErrorFormat("received a counter definition for a non existente counter/instance: {@definition}. Ignoring it!",definition);
+                Logger.ErrorFormat(
+                    "received a counter definition for a non existente counter/instance: {@definition}. Ignoring it!",
+                    definition);
             }
-            
         }
 
         public void Start()
