@@ -38,6 +38,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StatsdClient">
+      <HintPath>..\packages\StatsdClient.1.0.0.17\lib\net35\StatsdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="StatsdClient.Configuration">
+      <HintPath>..\packages\StatsdClient.1.0.0.17\lib\net35\StatsdClient.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -60,6 +66,10 @@
     <Compile Include="Services\ISupplyCounterDefinitions.cs" />
     <Compile Include="Sinks\ConsoleSink.cs" />
     <Compile Include="Sinks\FileSink.cs" />
+    <Compile Include="Sinks\StatsD\IResolveCounterType.cs" />
+    <Compile Include="Sinks\StatsD\RegexResolver.cs" />
+    <Compile Include="Sinks\StatsD\StatsDSink.cs" />
+    <Compile Include="Sinks\StatsD\StatsDTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

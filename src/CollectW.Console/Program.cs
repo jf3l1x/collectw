@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using CollectW.CounterDefinitionSuppliers;
 using CollectW.Services;
 using CollectW.Sinks;
+using CollectW.Sinks.StatsD;
 
 namespace CollectW.Console
 {
@@ -11,7 +11,13 @@ namespace CollectW.Console
     {
         private static void Main(string[] args)
         {
-            var service = new Collector(new JsonConfigFile(), new[] {new ConsoleSink()});
+            var service = new Collector(new JsonConfigFile(),
+                new ISendInfo[]
+                {
+                    new ConsoleSink(),
+                    new FileSink(@"c:\temp\perfcount.txt"),
+                    new StatsDSink(new RegexResolver().Add(".*", StatsDTypes.Gauge), new Uri("udp://elk.aidev.biz:8125"))
+                });
             service.Start();
             System.Console.WriteLine("reading values...");
             while (true)
@@ -20,6 +26,4 @@ namespace CollectW.Console
             }
         }
     }
-
-    
 }
