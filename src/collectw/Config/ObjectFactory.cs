@@ -30,7 +30,12 @@ namespace CollectW.Config
 
         private static void FindImplementations()
         {
-            string root = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var root=string.Empty;
+            if (Assembly.GetEntryAssembly() != null)
+            {
+                root = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);    
+            }
+            
             Traverse(Path.Combine(root, "modules"));
         }
 
@@ -44,7 +49,7 @@ namespace CollectW.Config
                 }
                 foreach (string module in Directory.EnumerateFiles(path, "*.dll"))
                 {
-                    Assembly assembly = Assembly.LoadFile(module);
+                    Assembly assembly = Assembly.LoadFile(Path.GetFullPath(module));
                     foreach (Type type in assembly.GetTypes())
                     {
                         if (type.IsPublic)

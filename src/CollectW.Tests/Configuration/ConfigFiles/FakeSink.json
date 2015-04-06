@@ -1,0 +1,21 @@
+﻿{
+    "CounterDefinition": {
+        "Type": "ConfigFileDefinitions",
+        "Configuration": [
+            {
+
+                "CategorieName": "Processor",
+                "CounterName": "% Processor Time",
+                "InstanceName": "0",
+                "CollectInterval": 5000
+            }
+        ]
+
+    },
+    "Sinks": [
+        {
+            "Type": "SendToNull",
+            "Configuration": {}
+        }
+    ]
+}

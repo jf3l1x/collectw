@@ -1,0 +1,8 @@
+﻿{
+    "Sinks": [
+        {
+            "Type": "ConsoleSink",
+            "Configuration": {}
+        }
+    ]
+}

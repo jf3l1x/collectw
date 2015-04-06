@@ -1,0 +1,15 @@
+﻿{
+    "CounterDefinition": {
+        "Type": "ConfigFileDefinitions",
+        "Configuration": [
+            {
+
+                "CategorieName": "Processor",
+                "CounterName": "% Processor Time",
+                "InstanceName": "2",
+                "CollectInterval": 5000
+            }
+        ]
+
+    }
+}

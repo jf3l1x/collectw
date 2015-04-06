@@ -1,0 +1,13 @@
+﻿{
+    "CounterDefinition": {
+        "Type": "ProcessorCounters",
+        "Configuration": { }
+
+    },
+    "Sinks": [
+        {
+            "Type": "SendToNull",
+            "Configuration": {}
+        }
+    ]
+}
