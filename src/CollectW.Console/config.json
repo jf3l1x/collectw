@@ -1,0 +1,23 @@
+﻿[
+    {
+
+        "CategorieName": "Processor",
+        "CounterName": "% Processor Time",
+        "InstanceName": "2",
+        "CollectInterval": 5000
+    },
+    {
+
+        "CategorieName": "Processor",
+        "CounterName": "% Processor Time",
+        "InstanceName": "1",
+        "CollectInterval": 5000
+    },
+    {
+       
+        "CategorieName" :  "Processor",
+        "CounterName" :  "% Processor Time",
+        "InstanceName" :  "_Total",
+        "CollectInterval" :  1500
+    }
+]

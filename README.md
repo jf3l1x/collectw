@@ -1,2 +1,2 @@
 # collectw
-A WIndows performance counter collector
+A Windows performance counter collector and forwarder
