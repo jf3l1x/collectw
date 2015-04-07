@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.FakeSink", "Collec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.FakeSupplier", "CollectW.FakeSupplier\CollectW.FakeSupplier.csproj", "{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.Service", "CollectW.Service\CollectW.Service.csproj", "{8132D867-8DF5-424F-9066-58DEB487D917}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8132D867-8DF5-424F-9066-58DEB487D917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8132D867-8DF5-424F-9066-58DEB487D917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8132D867-8DF5-424F-9066-58DEB487D917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8132D867-8DF5-424F-9066-58DEB487D917}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
