@@ -96,16 +96,6 @@
       <Name>CollectW</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\CollectW.FakeSink\bin\Debug\CollectW.FakeSink.dll">
-      <Link>Modules\CollectW.FakeSink.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CollectW.FakeSupplier\bin\Debug\CollectW.FakeSupplier.dll">
-      <Link>Modules\CollectW.FakeSupplier.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -113,6 +103,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)Modules"
+xcopy /Y "$(SolutionDir)CollectW.FakeSupplier\bin\$(ConfigurationName)\CollectW.FakeSupplier.dll" "$(TargetDir)Modules"
+xcopy /Y "$(SolutionDir)CollectW.FakeSink\bin\$(ConfigurationName)\CollectW.FakeSink.dll" "$(TargetDir)Modules"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

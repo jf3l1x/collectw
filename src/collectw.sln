@@ -8,12 +8,26 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.Console", "CollectW.Console\CollectW.Console.csproj", "{AC8CBAF9-CD10-4A09-A94B-2C27EB1ADB24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.Tests", "CollectW.Tests\CollectW.Tests.csproj", "{410E7FB7-8CFB-4C4B-83E0-35D62F56108F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A} = {198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}
+		{A585EECB-5169-45ED-9565-BB2403BBA2E2} = {A585EECB-5169-45ED-9565-BB2403BBA2E2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.FakeSink", "CollectW.FakeSink\CollectW.FakeSink.csproj", "{A585EECB-5169-45ED-9565-BB2403BBA2E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.FakeSupplier", "CollectW.FakeSupplier\CollectW.FakeSupplier.csproj", "{198A3C7A-5EB3-46FF-A072-2EC7ADDA3D2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectW.Service", "CollectW.Service\CollectW.Service.csproj", "{8132D867-8DF5-424F-9066-58DEB487D917}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI", "CI", "{F11DAAF5-2FC4-47BE-A248-9283603A0BB1}"
+	ProjectSection(SolutionItems) = preProject
+		..\.travis.yml = ..\.travis.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B4179168-5735-43DF-9A0F-5145D8006E8C}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
