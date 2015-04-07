@@ -42,7 +42,7 @@ namespace CollectW.Sinks
         {
             if (_writer != null)
             {
-                return Task.Run(() => _writer.WriteLine("[{0:O}] - {1} : {2} ", DateTimeOffset.UtcNow, counter, value));
+                return _writer.WriteLineAsync(string.Format("[{0:O}] - {1} : {2} ", DateTimeOffset.UtcNow, counter, value));
             }
             return Task.FromResult(0);
         }

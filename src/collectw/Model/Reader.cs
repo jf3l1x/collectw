@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CollectW.Extensions;
 using Collectw.Logging;
 using CollectW.Services;
 
@@ -16,6 +17,13 @@ namespace CollectW.Model
         internal Reader(CounterDefinition definition)
         {
             _definition = definition;
+            if (_definition == null || _definition.CategorieName.IsEmpty() || _definition.InstanceName.IsEmpty() ||
+                _definition.CounterName.IsEmpty())
+            {
+                Logger.Error("Invalid Counter Definition");
+                throw new ArgumentException("definition");
+            }
+            
             _counter = new PerformanceCounter(definition.CategorieName, definition.CounterName, definition.InstanceName,
                 true);
         }
@@ -35,10 +43,8 @@ namespace CollectW.Model
                 try
                 {
                     float value = _counter.NextValue();
-                    foreach (ISendInfo sink in sinks)
-                    {
-                        sink.Send(_definition.Identifier, value);
-                    }
+                    Parallel.ForEach(sinks, (sink) => sink.Send(_definition.Identifier, value));
+                   
                 }
                 catch (Exception ex)
                 {

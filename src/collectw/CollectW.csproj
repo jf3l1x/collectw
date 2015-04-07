@@ -60,6 +60,7 @@
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ObjectFactory.cs" />
     <Compile Include="Extensions\CounterDefinitionExtension.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Model\CounterDefinition.cs" />
     <Compile Include="Model\Reader.cs" />

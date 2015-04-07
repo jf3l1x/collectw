@@ -143,12 +143,7 @@ namespace CollectW.Tests.Configuration
                     Assert.Equal(false, sink.Disposed);
                     File.Copy(@"Configuration\ConfigFiles\Basic.json",
                         @"Configuration\ConfigFiles\WhenConfigurationChangesAllDisposableSinksAreDisposed.json", true);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (sink.Disposed)
-                            break;
-                        Thread.Sleep(100);
-                    }
+                    Thread.Sleep(200);
                     Assert.Equal(true, sink.Disposed);
                 }
             }
@@ -175,12 +170,7 @@ namespace CollectW.Tests.Configuration
                     Assert.Equal("SendToNull", configuration.Sinks.First().GetType().Name);
                     File.Copy(@"Configuration\ConfigFiles\Basic.json",
                         @"Configuration\ConfigFiles\WhenConfigurationChangesTheSinkCollectionChanges.json", true);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (configuration.Sinks.First().GetType().Name == "ConsoleSink")
-                            break;
-                        Thread.Sleep(100);
-                    }
+                    Thread.Sleep(200);
                     Assert.Equal("ConsoleSink", configuration.Sinks.First().GetType().Name);
                 }
             }
@@ -216,6 +206,31 @@ namespace CollectW.Tests.Configuration
             finally
             {
                 File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierIsDisposed.json");
+            }
+        }
+        [Fact]
+        public void WhenConfigurationChangesTheSupplierChanges()
+        {
+            try
+            {
+                File.Copy(@"Configuration\ConfigFiles\ProcessorCounters.json",
+                    @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json", true);
+                using (
+                    var configuration =
+                        new Config.Configuration(
+                            @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json"))
+                {
+                    Assert.NotNull(configuration.Supplier);
+                    Assert.Equal("ProcessorCounters", configuration.Supplier.GetType().Name);
+                    File.Copy(@"Configuration\ConfigFiles\Basic.json",
+                        @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json", true);
+                    Thread.Sleep(200);
+                    Assert.Equal("ConfigFileDefinitions", configuration.Supplier.GetType().Name);
+                }
+            }
+            finally
+            {
+                File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json");
             }
         }
     }

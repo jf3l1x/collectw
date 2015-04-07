@@ -15,6 +15,7 @@ namespace CollectW
         private readonly Dictionary<TimeSpan, Interval> _counters = new Dictionary<TimeSpan, Interval>();
         private ISupplyCounterDefinitions _definitionSupplier;
         private IEnumerable<ISendInfo> _sinks;
+        private bool _running;
 
         public Collector(ISupplyCounterDefinitions definitionSupplier, IEnumerable<ISendInfo> sinks)
         {
@@ -72,6 +73,10 @@ namespace CollectW
             {
                 AddReader(definition, sinks);
             }
+            if (_running)
+            {
+                Start();
+            }
         }
 
      
@@ -92,26 +97,31 @@ namespace CollectW
 
         private void AddReader(CounterDefinition definition, IEnumerable<ISendInfo> sinks)
         {
-            if (definition.Exists())
+            foreach (var counterDefinition in definition.Expand())
             {
-                Interval interval = null;
-                if (!_counters.TryGetValue(definition.CollectIntervalSpan, out interval))
+                if (counterDefinition.Exists())
                 {
-                    interval = new Interval(definition.CollectIntervalSpan, sinks);
-                    _counters.Add(definition.CollectIntervalSpan, interval);
+                    Interval interval = null;
+                    if (!_counters.TryGetValue(counterDefinition.CollectIntervalSpan, out interval))
+                    {
+                        interval = new Interval(counterDefinition.CollectIntervalSpan, sinks);
+                        _counters.Add(counterDefinition.CollectIntervalSpan, interval);
+                    }
+                    interval.AddDefinition(counterDefinition);
                 }
-                interval.AddDefinition(definition);
+                else
+                {
+                    Logger.ErrorFormat(
+                        "received a counter definition for a non existente counter/instance: {@definition}. Ignoring it!",
+                        counterDefinition);
+                }
             }
-            else
-            {
-                Logger.ErrorFormat(
-                    "received a counter definition for a non existente counter/instance: {@definition}. Ignoring it!",
-                    definition);
-            }
+           
         }
 
         public void Start()
         {
+            _running = true;
             foreach (Interval interval in _counters.Values)
             {
                 interval.Start();
@@ -121,6 +131,7 @@ namespace CollectW
 
         public void Stop()
         {
+            _running = false;
             foreach (Interval interval in _counters.Values)
             {
                 interval.Stop();

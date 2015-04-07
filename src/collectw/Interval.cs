@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using CollectW.Extensions;
 using CollectW.Model;
 using CollectW.Services;
 
@@ -54,7 +55,9 @@ namespace CollectW
             {
                 throw new ArgumentException("definition.CollectionInterval is not equals to this interval period!");
             }
-            _readers.Add(new Reader(definition));
+             _readers.Add(new Reader(definition));    
+            
+            
         }
     }
 }
