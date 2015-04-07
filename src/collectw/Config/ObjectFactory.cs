@@ -30,13 +30,7 @@ namespace CollectW.Config
 
         private static void FindImplementations()
         {
-            var root=string.Empty;
-            if (Assembly.GetEntryAssembly() != null)
-            {
-                root = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);    
-            }
-            
-            Traverse(Path.Combine(root, "modules"));
+            Traverse(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "modules"));
         }
 
         private static void Traverse(string path)
@@ -77,6 +71,8 @@ namespace CollectW.Config
         {
             try
             {
+                Logger.Debug("CreateSink");
+                Logger.DebugFormat("trying to create a sink of type {@typeName} with configuration {@configuration}", (object)typeName.ToString(), (object)configuration.ToString());
                 var type = FindType(typeName.ToString(),Sinks);
                 if (type == null)
                 {
@@ -87,6 +83,7 @@ namespace CollectW.Config
                 }
                 var retval = (ISendInfo) Activator.CreateInstance(type);
                 retval.Configure(configuration);
+                Logger.DebugFormat("sink {@typeName} created!", (object)typeName.ToString());
                 return retval;
             }
             catch (Exception ex)
@@ -101,15 +98,11 @@ namespace CollectW.Config
             Type type =
                 source.FirstOrDefault(
                     s =>
-                        string.Equals(typeName, s.FullName, StringComparison.InvariantCultureIgnoreCase));
-            if (type == null)
-            {
-                type =
-                    source.FirstOrDefault(
-                        s =>
-                            string.Equals(typeName, s.Name, StringComparison.InvariantCultureIgnoreCase));
-            }
-            
+                        string.Equals(typeName, s.FullName, StringComparison.InvariantCultureIgnoreCase)) ??
+                source.FirstOrDefault(
+                            s =>
+                                string.Equals(typeName, s.Name, StringComparison.InvariantCultureIgnoreCase));
+
             return type;
         }
 

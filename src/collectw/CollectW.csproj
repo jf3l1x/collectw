@@ -60,11 +60,11 @@
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ObjectFactory.cs" />
     <Compile Include="Extensions\CounterDefinitionExtension.cs" />
-    <Compile Include="Helpers\Unsubscriber.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Model\CounterDefinition.cs" />
     <Compile Include="Model\Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IConfigureCollector.cs" />
     <Compile Include="Services\ISendInfo.cs" />
     <Compile Include="Services\ISupplyCounterDefinitions.cs" />
     <Compile Include="Sinks\ConsoleSink.cs" />

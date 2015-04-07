@@ -4,9 +4,10 @@ using CollectW.Model;
 
 namespace CollectW.Services
 {
-    public interface ISupplyCounterDefinitions:IObservable<IEnumerable<CounterDefinition>>
+    public interface ISupplyCounterDefinitions
     {
         IEnumerable<CounterDefinition> CreateDefinitions();
         void Configure(dynamic configuration);
+        event EventHandler DefinitionsChanged;
     }
 }

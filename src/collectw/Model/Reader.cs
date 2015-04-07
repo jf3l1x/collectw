@@ -7,38 +7,17 @@ using CollectW.Services;
 
 namespace CollectW.Model
 {
-    internal class Reader:IDisposable
+    internal class Reader : IDisposable
     {
-        private readonly CounterDefinition _definition;
-        private readonly PerformanceCounter _counter;
         private static readonly ILog Logger = LogProvider.For<Reader>();
+        private readonly PerformanceCounter _counter;
+        private readonly CounterDefinition _definition;
+
         internal Reader(CounterDefinition definition)
         {
             _definition = definition;
-            _counter=new PerformanceCounter(definition.CategorieName,definition.CounterName,definition.InstanceName,true);
-        }
-
-        public Task Read(IEnumerable<ISendInfo> sinks)
-        {
-            return Task.Run(() =>
-            {
-                try
-                {
-                  
-                    var value = _counter.NextValue();
-                    foreach (var sink in sinks)
-                    {
-                        sink.Send(_definition.Identifier, value);
-                    }
-                    
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.Message);
-                    throw;
-                }
-               
-            });
+            _counter = new PerformanceCounter(definition.CategorieName, definition.CounterName, definition.InstanceName,
+                true);
         }
 
         public void Dispose()
@@ -47,6 +26,26 @@ namespace CollectW.Model
             {
                 _counter.Dispose();
             }
+        }
+
+        public Task Read(IEnumerable<ISendInfo> sinks)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    float value = _counter.NextValue();
+                    foreach (ISendInfo sink in sinks)
+                    {
+                        sink.Send(_definition.Identifier, value);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.Message);
+                    throw;
+                }
+            });
         }
     }
 }

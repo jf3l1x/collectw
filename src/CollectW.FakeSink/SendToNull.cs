@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CollectW.Services;
 
 namespace CollectW.FakeSink
 {
-    public class SendToNull : ISendInfo
+    public class SendToNull : ISendInfo,IDisposable
     {
         public Task Send(string counter, float value)
         {
@@ -13,5 +14,12 @@ namespace CollectW.FakeSink
         public void Configure(dynamic configuration)
         {
         }
+
+        public void Dispose()
+        {
+            Disposed = true;
+        }
+
+        public bool Disposed { get; set; }
     }
 }

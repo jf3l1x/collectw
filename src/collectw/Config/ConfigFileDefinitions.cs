@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CollectW.Helpers;
 using Collectw.Logging;
 using CollectW.Model;
 using CollectW.Services;
@@ -12,7 +11,7 @@ namespace CollectW.Config
     {
         private static readonly ILog Logger = LogProvider.For<ConfigFileDefinitions>();
         private List<CounterDefinition> _definitions;
-        private List<IObserver<IEnumerable<CounterDefinition>>> _observers;
+        
 
         
         public IEnumerable<CounterDefinition> CreateDefinitions()
@@ -29,13 +28,7 @@ namespace CollectW.Config
                 {
                     _definitions.Add(def.ToObject<CounterDefinition>());
                 }
-                if (_observers != null)
-                {
-                    foreach (var observer in _observers)
-                    {
-                        observer.OnNext(_definitions);
-                    }
-                }
+               
             }
             catch (Exception ex)
             {
@@ -45,15 +38,6 @@ namespace CollectW.Config
             }
         }
 
-
-        public IDisposable Subscribe(IObserver<IEnumerable<CounterDefinition>> observer)
-        {
-            if (_observers == null)
-            {
-                _observers = new List<IObserver<IEnumerable<CounterDefinition>>>();
-            }
-            _observers.Add(observer);
-            return new Unsubscriber<IEnumerable<CounterDefinition>> (_observers,observer);
-        }
+        public event EventHandler DefinitionsChanged;
     }
 }

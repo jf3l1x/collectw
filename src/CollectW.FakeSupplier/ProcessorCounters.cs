@@ -5,13 +5,9 @@ using CollectW.Services;
 
 namespace CollectW.FakeSupplier
 {
-    public class ProcessorCounters : ISupplyCounterDefinitions
+    public class ProcessorCounters : ISupplyCounterDefinitions,IDisposable
     {
-        public IDisposable Subscribe(IObserver<IEnumerable<CounterDefinition>> observer)
-        {
-            return null;
-        }
-
+       
         public IEnumerable<CounterDefinition> CreateDefinitions()
         {
             yield return
@@ -28,5 +24,13 @@ namespace CollectW.FakeSupplier
         {
             
         }
+
+        public event EventHandler DefinitionsChanged;
+        public void Dispose()
+        {
+            Disposed = true;
+        }
+
+        public bool Disposed { get; set; }
     }
 }

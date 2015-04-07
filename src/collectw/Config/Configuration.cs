@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using Collectw.Logging;
 using CollectW.Services;
 using Newtonsoft.Json;
 
 namespace CollectW.Config
 {
-    public class Configuration
+    public class Configuration:IConfigureCollector,IDisposable
     {
         private static readonly ILog Logger = LogProvider.For<Configuration>();
         private readonly string _path;
         private dynamic _configuration;
+        private FileSystemWatcher _watcher;
+        private List<ISendInfo> _sinks;
+        private string _configurationHash = string.Empty;
+        private Task _updateConfig;
 
         public Configuration(string path = null)
         {
@@ -24,7 +30,7 @@ namespace CollectW.Config
             else
             {
                 //Defaults to the directory of the exe
-                _path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "config.json");
+                _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json");
             }
             ReadConfig();
         }
@@ -33,23 +39,17 @@ namespace CollectW.Config
         {
             try
             {
-                using (var stream = new StreamReader(_path))
+
+                using (var stream = File.Open(_path,FileMode.Open,FileAccess.Read,FileShare.Read))
                 {
-                    _configuration = JsonConvert.DeserializeObject(stream.ReadToEnd());
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var configString = reader.ReadToEnd();
+                        _configurationHash = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(configString)));
+                        _configuration = JsonConvert.DeserializeObject(configString);    
+                    }
+                    
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.ErrorFormat("error reading configuration file: {@exception}", ex);
-                throw;
-            }
-        }
-
-
-        public Collector CreateCollector()
-        {
-            try
-            {
                 if (_configuration.CounterDefinition == null)
                 {
                     Logger.Error("invalid configuration file! Missing CounterDefinition Property!");
@@ -60,14 +60,110 @@ namespace CollectW.Config
                     Logger.Error("invalid configuration file! Missing Sinks Property!");
                     throw new InvalidOperationException("invalid configuration file");
                 }
-                dynamic supplier = ObjectFactory.CreateDefinitionsSupplier(_configuration.CounterDefinition.Type,
-                    _configuration.CounterDefinition.Configuration);
-                var sinks = new List<ISendInfo>();
+                DisposeSinks();
+                _sinks = new List<ISendInfo>();
                 foreach (dynamic sink in _configuration.Sinks)
                 {
-                    sinks.Add(ObjectFactory.CreateSink(sink.Type, sink.Configuration));
+                    _sinks.Add(ObjectFactory.CreateSink(sink.Type, sink.Configuration));
                 }
-                return new Collector(supplier, sinks);
+                DisposeSupplier();
+                Supplier = ObjectFactory.CreateDefinitionsSupplier(_configuration.CounterDefinition.Type,
+                    _configuration.CounterDefinition.Configuration);
+                StartWatch();
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorFormat("error reading configuration file: {@exception}", ex);
+                throw;
+            }
+        }
+
+        private Task InvokeWhenFileIsReady()
+        {
+            return Task.Run(() =>
+            {
+                bool done = false;
+                while (!done)
+                {
+                    try
+                    {
+                        using (var stream = File.Open(_path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            done = true;
+                            using (var reader = new StreamReader(stream))
+                            {
+                                if (
+                                    Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(reader.ReadToEnd()))) !=
+                                    _configurationHash)
+                                {
+                                    ReadConfig();
+                                    if (Changed != null)
+                                    {
+                                        Changed(this, EventArgs.Empty);
+                                    }   
+                                    Logger.Debug("Config File Has Changed");
+                                }
+                                else
+                                {
+                                    Logger.Debug("Config File has not changed!");
+                                }
+
+                            }
+                        }
+                    }
+                    catch (IOException)
+                    {
+
+                    }
+                }
+            });
+            
+            
+            
+            
+        }
+        private void DisposeSupplier()
+        {
+            if (Supplier != null)
+            {
+                var disposable = Supplier as IDisposable;
+                if (disposable != null)
+                {
+                    disposable.Dispose();
+                }
+            }
+        }
+
+        private void StartWatch()
+        {
+            if (_watcher == null)
+            {
+                _watcher = new FileSystemWatcher(Path.GetDirectoryName(Path.GetFullPath(_path)), Path.GetFileName(_path));
+                _watcher.NotifyFilter = NotifyFilters.LastWrite;
+                _watcher.Changed += OnChange;
+                _watcher.EnableRaisingEvents = true;    
+            }
+            
+        }
+
+        void OnChange(object sender, FileSystemEventArgs e)
+        {
+            Logger.DebugFormat("Configuration file changed! status {@args}",e);
+            if (_updateConfig == null || _updateConfig.IsCompleted)
+            {
+                _updateConfig = InvokeWhenFileIsReady();
+            }
+
+
+           
+            
+        }
+
+        public Collector CreateCollector()
+        {
+            try
+            {
+                return new Collector(this);
             }
             catch (Exception ex)
             {
@@ -75,5 +171,41 @@ namespace CollectW.Config
                 throw;
             }
         }
+
+        public void Dispose()
+        {
+            if (_watcher != null)
+            {
+                _watcher.Dispose();
+            }
+            if (_updateConfig != null && !_updateConfig.IsCompleted && !_updateConfig.IsFaulted)
+            {
+                _updateConfig.Dispose();
+            }
+            DisposeSinks();
+        }
+
+        private void DisposeSinks()
+        {
+            if (_sinks != null)
+            {
+                foreach (var sendInfo in _sinks)
+                {
+                    var disposable = sendInfo as IDisposable;
+                    if (disposable != null)
+                    {
+                        disposable.Dispose();
+                    }
+                }
+            }
+        }
+
+        public ISupplyCounterDefinitions Supplier { get; private set; }
+
+        public IEnumerable<ISendInfo> Sinks
+        {
+            get { return _sinks; }
+        }
+        public event EventHandler Changed;
     }
 }

@@ -48,9 +48,6 @@ namespace CollectW.Console
             
         }
 
-        public IDisposable Subscribe(IObserver<IEnumerable<CounterDefinition>> observer)
-        {
-            return null;
-        }
+        public event EventHandler DefinitionsChanged;
     }
 }
