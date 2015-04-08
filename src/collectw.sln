@@ -38,7 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{D1C6F80D
 		..\build\chocolatey\tools\chocolateyinstall.ps1 = ..\build\chocolatey\tools\chocolateyinstall.ps1
 		..\build\chocolatey\tools\chocolateyuninstall.ps1 = ..\build\chocolatey\tools\chocolateyuninstall.ps1
 		..\build\chocolatey\tools\config.json = ..\build\chocolatey\tools\config.json
-		Install-Service.ps1 = Install-Service.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{88DCAE2F-7231-42E0-B82D-29A0E05E1C30}"
