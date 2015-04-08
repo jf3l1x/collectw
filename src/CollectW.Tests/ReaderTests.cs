@@ -26,6 +26,7 @@ namespace CollectW.Tests
             reader.Read(new[] {Sink}).Wait();
             Assert.Equal(1, SentValues.Count);
             Assert.Equal(0, SentValues[0]);
+            Thread.Sleep(200);
             reader.Read(new[] {Sink}).Wait();
             Assert.Equal(2, SentValues.Count);
             Assert.True(SentValues[1] > 0);
