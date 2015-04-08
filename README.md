@@ -1,3 +1,3 @@
-<img src="https://travis-ci.org/jf3l1x/collectw.svg" data-bindattr-824="824" title="Build Status Images">
+<img src="https://ci.appveyor.com/api/projects/status/43hsevhbhl029fyv?svg=true" title="Build Status Images"/>
 # collectw
 A Windows performance counter collector and forwarder
