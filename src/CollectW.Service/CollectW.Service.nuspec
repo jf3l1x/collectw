@@ -16,15 +16,15 @@
     <copyright></copyright>
     <licenseUrl>https://github.com/jf3l1x/collectw/blob/master/License.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!--<iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/collectw.png</iconUrl>-->
+    <iconUrl>https://raw.githubusercontent.com/jf3l1x/collectw/master/src/img/collectw.png</iconUrl>
     <dependencies>
       <dependency id="dotnet4.5"/>
     </dependencies>
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
-    <file src="tools\**" target="tools" />
-    <file src="..\..\src\CollectW.Service\bin\release\*.dll" target="tools" />
-    <file src="..\..\src\CollectW.Service\bin\release\*.exe" target="tools" />
+    <file src="..\..\build\chocolatey\tools\**" target="tools" />
+    <file src="bin\release\*.dll" target="tools" />
+    <file src="bin\release\*.exe" target="tools" />
   </files>
 </package>

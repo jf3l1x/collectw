@@ -16,7 +16,7 @@
     <copyright></copyright>
     <licenseUrl>https://github.com/jf3l1x/collectw/blob/master/License.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!--<iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/collectw.png</iconUrl>-->
+    <iconUrl>https://raw.githubusercontent.com/jf3l1x/collectw/master/src/img/collectw.png</iconUrl>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="6.0.8" />
       <dependency id="StatsdClient" version="1.0.0.17"/>
@@ -24,6 +24,6 @@
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
-    <file src="..\..\src\CollectW\bin\release\collectw.dll" target="tools" />
+    <file src="bin\release\collectw.dll" target="tools" />
   </files>
 </package>

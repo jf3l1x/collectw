@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="CollectW.Service.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\collectw\CollectW.csproj">
