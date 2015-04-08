@@ -26,6 +26,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B4179168-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E647794A-A7A4-4DCD-A08D-ED17879656CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{BEB0706D-131B-4012-BCAC-8D9C046F7AB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chocolatey", "chocolatey", "{742E08A5-C9F6-417C-BAC9-220B1EC6AA65}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\chocolatey\collectw.service.nuspec = ..\build\chocolatey\collectw.service.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{D1C6F80D-6821-4E5B-9BC2-5B91A0A21568}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\chocolatey\tools\chocolateyinstall.ps1 = ..\build\chocolatey\tools\chocolateyinstall.ps1
+		..\build\chocolatey\tools\chocolateyuninstall.ps1 = ..\build\chocolatey\tools\chocolateyuninstall.ps1
+		..\build\chocolatey\tools\config.json = ..\build\chocolatey\tools\config.json
+		Install-Service.ps1 = Install-Service.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{88DCAE2F-7231-42E0-B82D-29A0E05E1C30}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\nuget\collectw.nuspec = ..\build\nuget\collectw.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,5 +79,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{742E08A5-C9F6-417C-BAC9-220B1EC6AA65} = {BEB0706D-131B-4012-BCAC-8D9C046F7AB0}
+		{D1C6F80D-6821-4E5B-9BC2-5B91A0A21568} = {742E08A5-C9F6-417C-BAC9-220B1EC6AA65}
+		{88DCAE2F-7231-42E0-B82D-29A0E05E1C30} = {BEB0706D-131B-4012-BCAC-8D9C046F7AB0}
 	EndGlobalSection
 EndGlobal

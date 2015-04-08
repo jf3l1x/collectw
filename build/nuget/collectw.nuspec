@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
+    <id>collectw</id>
+    <title>collectw.</title>
+    <version>$version$</version>
+    <authors>Jose Felix</authors>
+    <owners>Jose Felix</owners>
+    <summary>A collectd like application for windows</summary>
+    <description>Windows performance counters collector and forwarder, it comes with 3 default sinks : console, file and statsd server. You can create a counter supplier or sink and configure it your way.
+    </description>
+    <projectUrl>https://github.com/jf3l1x/collectw</projectUrl>
+    <tags>collectw windows performance counters statsd</tags>
+    <copyright></copyright>
+    <licenseUrl>https://github.com/jf3l1x/collectw/blob/master/License.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--<iconUrl>http://cdn.rawgit.com/__REPLACE_YOUR_REPO__/master/icons/collectw.png</iconUrl>-->
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
+      <dependency id="StatsdClient" version="1.0.0.17"/>
+    </dependencies>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="..\..\src\CollectW\bin\release\collectw.dll" target="tools" />
+  </files>
+</package>
