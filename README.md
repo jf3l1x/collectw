@@ -1,5 +1,5 @@
-<img src="https://ci.appveyor.com/api/projects/status/43hsevhbhl029fyv?svg=true" title="Build Status Images"/>
-# collectw
+# collectw [![Build status](https://ci.appveyor.com/api/projects/status/43hsevhbhl029fyv?svg=true)](https://ci.appveyor.com/project/JoseFelix/collectw) [![NuGet Status](http://img.shields.io/nuget/v/collectw.svg?style=flat)](https://www.nuget.org/packages/collectw/)[![Chocolatey Status](https://img.shields.io/chocolatey/v/chocolatey.service.svg)](https://chocolatey.org/packages/collectw.service)
+
 A Windows performance counter collector and forwarder
 
 If you need to collect Windows performance counters this may fit yours needs.
