@@ -7,7 +7,7 @@ namespace CollectW.Model
     public class CounterDefinition
     {
         [DataMember]
-        public string CategorieName { get; set; }
+        public string CategoryName { get; set; }
 
         [DataMember]
         public string InstanceName { get; set; }
@@ -27,7 +27,7 @@ namespace CollectW.Model
         {
             get
             {
-                return string.Format("{0}.{1}.{2}.{3}", Environment.MachineName, CategorieName, CounterName,
+                return string.Format("{0}.{1}.{2}.{3}", Environment.MachineName, CategoryName, CounterName,
                     InstanceName);
             }
         }

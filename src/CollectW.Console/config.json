@@ -4,7 +4,7 @@
         "Configuration": [
             {
 
-                "CategorieName": "Processor",
+                "CategoryName": "Processor",
                 "CounterName": "\/.*\/",
                 "InstanceName": "_Total",
                 "CollectInterval": 5000

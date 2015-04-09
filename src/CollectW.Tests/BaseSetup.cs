@@ -23,7 +23,7 @@ namespace CollectW.Tests
             {
                 new CounterDefinition
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "_Total",
                     CollectInterval = 50

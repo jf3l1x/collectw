@@ -100,137 +100,129 @@ namespace CollectW.Tests.Configuration
         [Fact]
         public void IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised()
         {
+            var tempFile = Path.GetTempFileName();
             try
             {
+               
                 Log.Logger.Debug("Starting test IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised");
-                File.Copy(@"Configuration\ConfigFiles\Basic.json",
-                    @"Configuration\ConfigFiles\IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised.json", true);
+                File.Copy(@"Configuration\ConfigFiles\Basic.json", tempFile, true);
                 using (
                     var configuration =
-                        new Config.Configuration(
-                            @"Configuration\ConfigFiles\IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised.json"))
+                        new Config.Configuration(tempFile))
                 {
                     bool triggered = false;
                     configuration.Changed += (s, e) => { triggered = true; };
-                    File.Copy(@"Configuration\ConfigFiles\FakeSink.json",
-                        @"Configuration\ConfigFiles\IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised.json", true);
+                    File.Copy(@"Configuration\ConfigFiles\FakeSink.json", tempFile, true);
                     Thread.Sleep(200);
                     Assert.True(triggered);
                 }
             }
             finally
             {
-                File.Delete(@"Configuration\ConfigFiles\IfAnyChangesHappensToTheConfigFileAnEventShouldBeRaised.json");
+                File.Delete(tempFile);
             }
         }
 
         [Fact]
         public void WhenConfigurationChangesAllDisposableSinksAreDisposed()
         {
+            var tempFile = Path.GetTempFileName();
             try
             {
                 Log.Logger.Debug("Starting test WhenConfigurationChangesAllDisposableSinksAreDisposed");
-                File.Copy(@"Configuration\ConfigFiles\FakeSink.json",
-                    @"Configuration\ConfigFiles\WhenConfigurationChangesAllDisposableSinksAreDisposed.json", true);
+                File.Copy(@"Configuration\ConfigFiles\FakeSink.json", tempFile, true);
                 using (
                     var configuration =
-                        new Config.Configuration(
-                            @"Configuration\ConfigFiles\WhenConfigurationChangesAllDisposableSinksAreDisposed.json"))
+                        new Config.Configuration(tempFile))
                 {
                     Assert.Equal(1, configuration.Sinks.Count());
                     var sink = (dynamic) configuration.Sinks.First();
                     Assert.Equal("SendToNull", sink.GetType().Name);
                     Assert.Equal(false, sink.Disposed);
-                    File.Copy(@"Configuration\ConfigFiles\Basic.json",
-                        @"Configuration\ConfigFiles\WhenConfigurationChangesAllDisposableSinksAreDisposed.json", true);
+                    File.Copy(@"Configuration\ConfigFiles\Basic.json", tempFile, true);
                     Thread.Sleep(200);
                     Assert.Equal(true, sink.Disposed);
                 }
             }
             finally
             {
-                File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesAllDisposableSinksAreDisposed.json");
+                File.Delete(tempFile);
             }
         }
 
         [Fact]
         public void WhenConfigurationChangesTheSinkCollectionChanges()
         {
+            var tempFile = Path.GetTempFileName();
             try
             {
                 Log.Logger.Debug("Starting test WhenConfigurationChangesTheSinkCollectionChanges");
                 File.Copy(@"Configuration\ConfigFiles\FakeSink.json",
-                    @"Configuration\ConfigFiles\WhenConfigurationChangesTheSinkCollectionChanges.json", true);
+                    tempFile, true);
                 using (
                     var configuration =
-                        new Config.Configuration(
-                            @"Configuration\ConfigFiles\WhenConfigurationChangesTheSinkCollectionChanges.json"))
+                        new Config.Configuration(tempFile))
                 {
                     Assert.Equal(1, configuration.Sinks.Count());
                     Assert.Equal("SendToNull", configuration.Sinks.First().GetType().Name);
-                    File.Copy(@"Configuration\ConfigFiles\Basic.json",
-                        @"Configuration\ConfigFiles\WhenConfigurationChangesTheSinkCollectionChanges.json", true);
+                    File.Copy(@"Configuration\ConfigFiles\Basic.json",tempFile, true);
                     Thread.Sleep(200);
                     Assert.Equal("ConsoleSink", configuration.Sinks.First().GetType().Name);
                 }
             }
             finally
             {
-                File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesTheSinkCollectionChanges.json");
+                File.Delete(tempFile);
             }
         }
 
         [Fact]
         public void WhenConfigurationChangesTheSupplierIsDisposed()
         {
+            var tempFile = Path.GetTempFileName();
             try
             {
                 Log.Logger.Debug("Starting test WhenConfigurationChangesTheSupplierIsDisposed");
-                File.Copy(@"Configuration\ConfigFiles\ProcessorCounters.json",
-                    @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierIsDisposed.json", true);
+                File.Copy(@"Configuration\ConfigFiles\ProcessorCounters.json", tempFile, true);
                 using (
                     var configuration =
-                        new Config.Configuration(
-                            @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierIsDisposed.json"))
+                        new Config.Configuration(tempFile))
                 {
                     Assert.NotNull(configuration.Supplier);
                     var supplier = (dynamic) configuration.Supplier;
                     Assert.Equal("ProcessorCounters", supplier.GetType().Name);
                     Assert.Equal(false, supplier.Disposed);
-                    File.Copy(@"Configuration\ConfigFiles\Basic.json",
-                        @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierIsDisposed.json", true);
+                    File.Copy(@"Configuration\ConfigFiles\Basic.json", tempFile, true);
                     Thread.Sleep(200);
                     Assert.Equal(true, supplier.Disposed);
                 }
             }
             finally
             {
-                File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierIsDisposed.json");
+                File.Delete(tempFile);
             }
         }
         [Fact]
         public void WhenConfigurationChangesTheSupplierChanges()
         {
+            var tempFile = Path.GetTempFileName();
             try
             {
-                File.Copy(@"Configuration\ConfigFiles\ProcessorCounters.json",
-                    @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json", true);
+                File.Copy(@"Configuration\ConfigFiles\ProcessorCounters.json", tempFile, true);
                 using (
                     var configuration =
-                        new Config.Configuration(
-                            @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json"))
+                        new Config.Configuration(tempFile))
                 {
                     Assert.NotNull(configuration.Supplier);
                     Assert.Equal("ProcessorCounters", configuration.Supplier.GetType().Name);
-                    File.Copy(@"Configuration\ConfigFiles\Basic.json",
-                        @"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json", true);
+                    File.Copy(@"Configuration\ConfigFiles\Basic.json",tempFile, true);
                     Thread.Sleep(200);
                     Assert.Equal("ConfigFileDefinitions", configuration.Supplier.GetType().Name);
                 }
             }
             finally
             {
-                File.Delete(@"Configuration\ConfigFiles\WhenConfigurationChangesTheSupplierChanges.json");
+                File.Delete(tempFile);
             }
         }
     }

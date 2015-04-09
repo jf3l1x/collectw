@@ -14,7 +14,7 @@ namespace CollectW.FakeSupplier
                 new CounterDefinition
                 {
                     InstanceName = "0",
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     CollectInterval = 100
                 };

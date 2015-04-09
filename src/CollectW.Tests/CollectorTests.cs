@@ -1,5 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using CollectW.Model;
+using CollectW.Sinks;
+using CollectW.Sinks.StatsD;
+using CollectW.Suppliers;
 using CollectW.Tests.Impl;
 using Xunit;
 
@@ -38,7 +42,7 @@ namespace CollectW.Tests
                 Assert.Equal(0,SentValues.Count);
                 supplier.AddCounter(new CounterDefinition()
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "_Total",
                     CollectInterval = 50
@@ -57,7 +61,7 @@ namespace CollectW.Tests
             {
                 supplier.AddCounter(new CounterDefinition()
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "/.*/",
                     InstanceName = "/.*/",
                     CollectInterval = 50
@@ -68,6 +72,58 @@ namespace CollectW.Tests
                 collector.Stop();
                 Assert.True(Counters.Count > 10,string.Format("expected more than {0} but was {1}",10,Counters.Count));
             }
+        }
+
+        [Fact]
+        public void SimpleSetupAsALib()
+        {
+            var collector =
+                new Collector(
+                    new DefaultSupplier(new[]
+                    {
+                        new CounterDefinition()
+                        {
+                            CategoryName = "Processor",
+                            InstanceName = "_Total",
+                            CounterName = "% Processor Time",
+                            CollectInterval = 5000
+                        }
+                    }), new[] {new ConsoleSink()});
+            collector.Start();
+            //Do your stuff
+            Thread.Sleep(400);
+            //at some point, when no more performance counter info is needed
+            collector.Stop();
+            collector.Dispose();
+        }
+        [Fact]
+        public void SendingToStatsD()
+        {
+            var collector =
+                new Collector(
+                    new DefaultSupplier(new[]
+                    {
+                        new CounterDefinition()
+                        {
+                            CategoryName = "Processor",
+                            InstanceName = "_Total",
+                            CounterName = "% Processor Time",
+                            CollectInterval = 5000
+                        }
+                    }),
+                    new[]
+                    {
+                            new StatsDSink(
+                                new RegexResolver().Add(".*", StatsDTypes.Gauge), 
+                                new Uri("UDP://localhost:8125")
+                                )
+                    });
+            collector.Start();
+            //Do your stuff
+            Thread.Sleep(400);
+            //at some point, when no more performance counter info is needed
+            collector.Stop();
+            collector.Dispose();
         }
         
     }

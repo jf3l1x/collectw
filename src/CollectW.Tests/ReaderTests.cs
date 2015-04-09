@@ -19,7 +19,7 @@ namespace CollectW.Tests
             var reader =
                 new Reader(new CounterDefinition
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "_Total"
                 });
@@ -38,7 +38,7 @@ namespace CollectW.Tests
             var interval = new Interval(TimeSpan.FromMilliseconds(50), new[] {Sink});
             interval.AddDefinition(new CounterDefinition
             {
-                CategorieName = "Processor",
+                CategoryName = "Processor",
                 CounterName = "% Processor Time",
                 InstanceName = "_Total",
                 CollectInterval = 50
@@ -56,14 +56,14 @@ namespace CollectW.Tests
             {
                 interval.AddDefinition(new CounterDefinition
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "_Total",
                     CollectInterval = 50
                 });
                 interval.AddDefinition(new CounterDefinition
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "0",
                     CollectInterval = 50

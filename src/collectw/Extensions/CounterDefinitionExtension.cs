@@ -8,10 +8,10 @@ namespace CollectW.Extensions
     {
         internal static bool Exists(this CounterDefinition definition)
         {
-            return PerformanceCounterCategory.Exists(definition.CategorieName) &&
+            return PerformanceCounterCategory.Exists(definition.CategoryName) &&
                    PerformanceCounterCategory.CounterExists(definition.CounterName,
-                       definition.CategorieName) &&
-                   PerformanceCounterCategory.InstanceExists(definition.InstanceName, definition.CategorieName);
+                       definition.CategoryName) &&
+                   PerformanceCounterCategory.InstanceExists(definition.InstanceName, definition.CategoryName);
         }
 
         internal static IEnumerable<CounterDefinition> Expand(this CounterDefinition definition)
@@ -24,7 +24,7 @@ namespace CollectW.Extensions
                     {
                         yield return new CounterDefinition()
                         {
-                            CategorieName = category,
+                            CategoryName = category,
                             InstanceName = instance,
                             CounterName = counter,
                             CollectInterval = definition.CollectInterval
@@ -76,7 +76,7 @@ namespace CollectW.Extensions
         }
         internal static IEnumerable<string> ExpandCategories(this CounterDefinition definition)
         {
-            var regex = definition.CategorieName.AsRegex();
+            var regex = definition.CategoryName.AsRegex();
             if (regex!=null)
             {
                 foreach (var category in PerformanceCounterCategory.GetCategories())
@@ -90,7 +90,7 @@ namespace CollectW.Extensions
             }
             else
             {
-                yield return definition.CategorieName;
+                yield return definition.CategoryName;
             }
 
         }

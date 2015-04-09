@@ -17,14 +17,14 @@ namespace CollectW.Model
         internal Reader(CounterDefinition definition)
         {
             _definition = definition;
-            if (_definition == null || _definition.CategorieName.IsEmpty() || _definition.InstanceName.IsEmpty() ||
+            if (_definition == null || _definition.CategoryName.IsEmpty() || _definition.InstanceName.IsEmpty() ||
                 _definition.CounterName.IsEmpty())
             {
                 Logger.Error("Invalid Counter Definition");
                 throw new ArgumentException("definition");
             }
             
-            _counter = new PerformanceCounter(definition.CategorieName, definition.CounterName, definition.InstanceName,
+            _counter = new PerformanceCounter(definition.CategoryName, definition.CounterName, definition.InstanceName,
                 true);
         }
 

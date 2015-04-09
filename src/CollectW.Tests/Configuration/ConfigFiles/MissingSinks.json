@@ -4,7 +4,7 @@
         "Configuration": [
             {
 
-                "CategorieName": "Processor",
+                "CategoryName": "Processor",
                 "CounterName": "% Processor Time",
                 "InstanceName": "2",
                 "CollectInterval": 5000

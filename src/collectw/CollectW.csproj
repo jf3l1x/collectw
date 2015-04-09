@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.0\LibLog.cs" />
     <Compile Include="Collector.cs" />
-    <Compile Include="Config\ConfigFileDefinitions.cs" />
+    <Compile Include="Suppliers\ConfigFileDefinitions.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ObjectFactory.cs" />
     <Compile Include="Extensions\CounterDefinitionExtension.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="Sinks\StatsD\RegexResolver.cs" />
     <Compile Include="Sinks\StatsD\StatsDSink.cs" />
     <Compile Include="Sinks\StatsD\StatsDTypes.cs" />
+    <Compile Include="Suppliers\DefaultSupplier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

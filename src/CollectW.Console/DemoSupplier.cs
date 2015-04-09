@@ -12,7 +12,7 @@ namespace CollectW.Console
             yield return
                 new CounterDefinition
                 {
-                    CategorieName = "Processor",
+                    CategoryName = "Processor",
                     CounterName = "% Processor Time",
                     InstanceName = "2",
                     CollectInterval = 5000
@@ -20,7 +20,7 @@ namespace CollectW.Console
             yield return
               new CounterDefinition
               {
-                  CategorieName = "Processor",
+                  CategoryName = "Processor",
                   CounterName = "% Processor Time",
                   InstanceName = "0",
                   CollectInterval = 5000
@@ -28,7 +28,7 @@ namespace CollectW.Console
             yield return
             new CounterDefinition
             {
-                CategorieName = "Processor",
+                CategoryName = "Processor",
                 CounterName = "% Processor Time",
                 InstanceName = "_Total",
                 CollectInterval = 5000
@@ -36,7 +36,7 @@ namespace CollectW.Console
             yield return
            new CounterDefinition
            {
-               CategorieName = "NonExistent",
+               CategoryName = "NonExistent",
                CounterName = "% Processor Time",
                InstanceName = "_Total",
                CollectInterval = 700

@@ -2,28 +2,27 @@
     "CounterDefinition": {
         "Type": "ConfigFileDefinitions",
         "Configuration": [
-            /* Sample collecting from categorie Processor All counters for instance _Total
+            
             {
 
-                "CategorieName": "Processor",
+                "CategoryName": "Processor",
                 "CounterName": "\/.*\/",
                 "InstanceName": "_Total",
-                "CollectInterval": 5000 //collect every 5 seconds
+                "CollectInterval": 5000 
             }
-            */
+            
 
         ]
 
     },
     "Sinks": [
-        /* StatsD configuration Sample
         {
-            "Type": "StatsDSink", //You can create libs with classes that implements ISendInfo, put the .dll into the modules subfolder and specify the class name here
+            "Type": "StatsDSink", 
             "Configuration": {
                 "Host": "YOUR_STATS_D_SERVER",
                 "Port": 8125,
                 "MaxUdpPacket": 512,
-                //The bellow settings specify a regex and a type for each matching performance counter name. the names cames using  Category.Counter.Instance format
+                
                 "CounterTypeMaps": [
                     {
                         "Regex": ".*",
@@ -32,15 +31,13 @@
                 ]
             }
         },
-        */
-        /*File Configuration Sample
         {
             "Type": "FileSink",
             "Configuration": {
-                "Path": "c:\\temp\\perfcount.txt",
+                "Path": "perfcount.txt",
                 "FlushInterval": 1000
             }
         }
-        */
+        
     ]
 }
