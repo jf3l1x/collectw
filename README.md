@@ -1,4 +1,4 @@
-# collectw [![Build status](https://ci.appveyor.com/api/projects/status/43hsevhbhl029fyv?svg=true)](https://ci.appveyor.com/project/JoseFelix/collectw) [![NuGet Status](http://img.shields.io/nuget/v/collectw.svg?style=flat)](https://www.nuget.org/packages/collectw/)[![Chocolatey Status](https://img.shields.io/chocolatey/v/collectw.service.svg)](https://chocolatey.org/packages/collectw.service)
+# collectw [![Build status](https://ci.appveyor.com/api/projects/status/43hsevhbhl029fyv?svg=true)](https://ci.appveyor.com/project/JoseFelix/collectw) [![NuGet Status](http://img.shields.io/nuget/v/collectw.svg?style=flat)](https://www.nuget.org/packages/collectw/) [![Chocolatey Status](https://img.shields.io/chocolatey/v/collectw.service.svg)](https://chocolatey.org/packages/collectw.service)
 
 A Windows performance counter collector and forwarder
 
