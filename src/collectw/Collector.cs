@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CollectW.Extensions;
 using Collectw.Logging;
+using CollectW.Extensions;
 using CollectW.Model;
 using CollectW.Services;
 
@@ -10,12 +10,12 @@ namespace CollectW
 {
     public class Collector : IDisposable
     {
-        private readonly IConfigureCollector _config;
         private static readonly ILog Logger = LogProvider.For<Collector>();
+        private readonly IConfigureCollector _config;
         private readonly Dictionary<TimeSpan, Interval> _counters = new Dictionary<TimeSpan, Interval>();
         private ISupplyCounterDefinitions _definitionSupplier;
-        private IEnumerable<ISendInfo> _sinks;
         private bool _running;
+        private IEnumerable<ISendInfo> _sinks;
 
         public Collector(ISupplyCounterDefinitions definitionSupplier, IEnumerable<ISendInfo> sinks)
         {
@@ -37,6 +37,19 @@ namespace CollectW
             }
         }
 
+        public Collector(IConfigureCollector config) : this(config.Supplier, config.Sinks)
+        {
+            _config = config;
+            config.Changed += config_Changed;
+        }
+
+
+        public void Dispose()
+        {
+            Stop();
+            DisposeIntervals();
+        }
+
         private void SetSupplier(ISupplyCounterDefinitions definitionSupplier)
         {
             if (_definitionSupplier != null)
@@ -47,19 +60,13 @@ namespace CollectW
             _definitionSupplier.DefinitionsChanged += DefinitionsChanged;
         }
 
-        public Collector(IConfigureCollector config) : this(config.Supplier, config.Sinks)
-        {
-            _config = config;
-            config.Changed += config_Changed;
-        }
-
-        void config_Changed(object sender, EventArgs e)
+        private void config_Changed(object sender, EventArgs e)
         {
             _sinks = _config.Sinks.ToList();
             SetSupplier(_config.Supplier);
             ConfigureReaders(_sinks);
         }
-      
+
         private void DefinitionsChanged(object sender, EventArgs e)
         {
             ConfigureReaders(_sinks);
@@ -69,7 +76,7 @@ namespace CollectW
         {
             DisposeIntervals();
             _counters.Clear();
-            foreach (CounterDefinition definition in _definitionSupplier.CreateDefinitions())
+            foreach (var definition in _definitionSupplier.CreateDefinitions())
             {
                 AddReader(definition, sinks);
             }
@@ -79,17 +86,9 @@ namespace CollectW
             }
         }
 
-     
-        public void Dispose()
-        {
-            Stop();
-            DisposeIntervals();
-            
-        }
-
         private void DisposeIntervals()
         {
-            foreach (Interval counter in _counters.Values)
+            foreach (var counter in _counters.Values)
             {
                 counter.Dispose();
             }
@@ -116,13 +115,12 @@ namespace CollectW
                         counterDefinition);
                 }
             }
-           
         }
 
         public void Start()
         {
             _running = true;
-            foreach (Interval interval in _counters.Values)
+            foreach (var interval in _counters.Values)
             {
                 interval.Start();
             }
@@ -132,12 +130,10 @@ namespace CollectW
         public void Stop()
         {
             _running = false;
-            foreach (Interval interval in _counters.Values)
+            foreach (var interval in _counters.Values)
             {
                 interval.Stop();
             }
         }
-
-      
     }
 }

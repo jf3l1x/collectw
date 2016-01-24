@@ -39,15 +39,20 @@ namespace CollectW.Extensions
             string category)
         {
             var regex = definition.InstanceName.AsRegex();
+            var any = false;
             if (regex != null)
             {
                 foreach (var instance in new PerformanceCounterCategory(category).GetInstanceNames())
                 {
-                    if (instance.IsEmpty() || regex.IsMatch(instance)) 
+                    if (instance.IsEmpty() || regex.IsMatch(instance))
                     {
-
+                        any = true;
                         yield return instance;
                     }
+                }
+                if (!any)
+                {
+                    yield return Constants.SingleInstanceName;
                 }
             }
             else
