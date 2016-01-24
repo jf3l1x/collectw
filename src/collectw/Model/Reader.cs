@@ -17,7 +17,7 @@ namespace CollectW.Model
         internal Reader(CounterDefinition definition)
         {
             _definition = definition;
-            if (_definition == null || _definition.CategoryName.IsEmpty() || _definition.InstanceName.IsEmpty() ||
+            if (_definition == null || _definition.CategoryName.IsEmpty() || 
                 _definition.CounterName.IsEmpty())
             {
                 Logger.Error("Invalid Counter Definition");

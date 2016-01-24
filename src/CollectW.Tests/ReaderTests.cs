@@ -31,7 +31,24 @@ namespace CollectW.Tests
             Assert.Equal(2, SentValues.Count);
             Assert.True(SentValues[1] > 0);
         }
-
+        [Fact]
+        public void ReadACounterWithouAnInstance()
+        {
+            var reader =
+                new Reader(new CounterDefinition
+                {
+                    CategoryName = "Memory",
+                    CounterName = "Available MBytes",
+                    InstanceName = string.Empty
+                });
+            reader.Read(new[] { Sink }).Wait();
+            Assert.Equal(1, SentValues.Count);
+            Assert.True( SentValues[0]>0);
+            Thread.Sleep(200);
+            reader.Read(new[] { Sink }).Wait();
+            Assert.Equal(2, SentValues.Count);
+            Assert.True(SentValues[0] > 0);
+        }
         [Fact]
         public void ReadOneCountersUsingAnInterval()
         {

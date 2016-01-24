@@ -15,7 +15,7 @@ namespace CollectW.Tests
                 CategoryName = "Memory",
                 CollectInterval = 1000,
                 CounterName = "Available MBytes",
-                InstanceName = Constants.SingleInstanceName
+                InstanceName = string.Empty
             };
             Assert.True(counter.Exists());
         }
@@ -34,7 +34,7 @@ namespace CollectW.Tests
             };
             var counters = counter.Expand().ToList();
             Assert.Equal(1,counters.Count);
-            Assert.Equal(Constants.SingleInstanceName,counters.First().InstanceName);
+            Assert.Equal(string.Empty,counters.First().InstanceName);
             Assert.Equal(counter.CategoryName, counters.First().CategoryName);
             Assert.Equal(counter.CounterName, counters.First().CounterName);
         }

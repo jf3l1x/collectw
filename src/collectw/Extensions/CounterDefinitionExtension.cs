@@ -8,10 +8,12 @@ namespace CollectW.Extensions
     {
         internal static bool Exists(this CounterDefinition definition)
         {
-            return PerformanceCounterCategory.Exists(definition.CategoryName) &&
-                   PerformanceCounterCategory.CounterExists(definition.CounterName,
-                       definition.CategoryName) &&
-                   PerformanceCounterCategory.InstanceExists(definition.InstanceName, definition.CategoryName);
+            return 
+                PerformanceCounterCategory.Exists(definition.CategoryName) 
+                &&
+                PerformanceCounterCategory.CounterExists(definition.CounterName,definition.CategoryName) 
+                &&
+                PerformanceCounterCategory.InstanceExists(string.IsNullOrEmpty(definition.InstanceName)?Constants.SingleInstanceName:definition.InstanceName, definition.CategoryName);
         }
 
         internal static IEnumerable<CounterDefinition> Expand(this CounterDefinition definition)
@@ -52,7 +54,7 @@ namespace CollectW.Extensions
                 }
                 if (!any)
                 {
-                    yield return Constants.SingleInstanceName;
+                    yield return string.Empty;
                 }
             }
             else
