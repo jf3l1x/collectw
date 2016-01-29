@@ -13,10 +13,14 @@ namespace CollectW.Model
         private static readonly ILog Logger = LogProvider.For<Reader>();
         private readonly PerformanceCounter _counter;
         private readonly CounterDefinition _definition;
+        private readonly IMachineNameProvider _machineNameProvider;
+        private readonly ICounterIdentifierGenerator _counterIdentifierGenerator;
 
-        internal Reader(CounterDefinition definition)
+        internal Reader(CounterDefinition definition, IMachineNameProvider machineNameProvider, ICounterIdentifierGenerator counterIdentifierGenerator)
         {
             _definition = definition;
+            _machineNameProvider = machineNameProvider;
+            _counterIdentifierGenerator = counterIdentifierGenerator;
             if (_definition == null || _definition.CategoryName.IsEmpty() || 
                 _definition.CounterName.IsEmpty())
             {
@@ -43,7 +47,7 @@ namespace CollectW.Model
                 try
                 {
                     float value = _counter.NextValue();
-                    Parallel.ForEach(sinks, (sink) => sink.Send(_definition.Identifier, value));
+                    Parallel.ForEach(sinks, (sink) => sink.Send(_counterIdentifierGenerator.Generate(_machineNameProvider, _definition), value));
                    
                 }
                 catch (Exception ex)

@@ -12,8 +12,6 @@ namespace CollectW.Config
         private static readonly ILog Logger = LogProvider.For<ConfigFileDefinitions>();
         private List<CounterDefinition> _definitions;
         
-
-        
         public IEnumerable<CounterDefinition> CreateDefinitions()
         {
             return _definitions;

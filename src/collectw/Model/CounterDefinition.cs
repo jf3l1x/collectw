@@ -22,25 +22,5 @@ namespace CollectW.Model
         {
             get { return TimeSpan.FromMilliseconds(CollectInterval); }
         }
-
-        public string Identifier
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(InstanceName))
-                {
-                    return string.Format("{0}.{1}.{2}", Environment.MachineName, CategoryName, CounterName);
-                }
-                return string.Format("{0}.{1}.{2}.{3}", Environment.MachineName, CategoryName, CounterName,
-                    InstanceName);
-            }
-        }
-
-        public override string ToString()
-        {
-            return Identifier;
-        }
-
-      
     }
 }

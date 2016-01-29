@@ -57,6 +57,10 @@
     <Compile Include="App_Packages\LibLog.4.0\LibLog.cs" />
     <Compile Include="Collector.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Providers\DefaultMachineNameProvider.cs" />
+    <Compile Include="DefaultCounterIdentifierGenerator.cs" />
+    <Compile Include="Services\ICounterIdentifierGenerator.cs" />
+    <Compile Include="Services\IMachineNameProvider.cs" />
     <Compile Include="Suppliers\ConfigFileDefinitions.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ObjectFactory.cs" />

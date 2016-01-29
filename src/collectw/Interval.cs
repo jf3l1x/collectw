@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using CollectW.Extensions;
 using CollectW.Model;
 using CollectW.Services;
 
@@ -11,13 +10,17 @@ namespace CollectW
     {
         private readonly IList<Reader> _readers;
         private readonly IEnumerable<ISendInfo> _sinks;
+        private readonly IMachineNameProvider _machineNameProvider;
+        private readonly ICounterIdentifierGenerator _counterIdentifierGenerator;
         private readonly TimeSpan _period;
         private readonly Timer _timer;
 
-        public Interval(TimeSpan period, IEnumerable<ISendInfo> sinks)
+        public Interval(TimeSpan period, IEnumerable<ISendInfo> sinks, IMachineNameProvider machineNameProvider, ICounterIdentifierGenerator counterIdentifierGenerator)
         {
             _period = period;
             _sinks = sinks;
+            _machineNameProvider = machineNameProvider;
+            _counterIdentifierGenerator = counterIdentifierGenerator;
             _timer = new Timer(Tick, null, Timeout.InfiniteTimeSpan, period);
             _readers = new List<Reader>();
         }
@@ -55,7 +58,7 @@ namespace CollectW
             {
                 throw new ArgumentException("definition.CollectionInterval is not equals to this interval period!");
             }
-             _readers.Add(new Reader(definition));    
+            _readers.Add(new Reader(definition, _machineNameProvider, _counterIdentifierGenerator));    
             
             
         }

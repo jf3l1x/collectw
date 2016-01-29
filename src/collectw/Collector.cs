@@ -4,6 +4,7 @@ using System.Linq;
 using Collectw.Logging;
 using CollectW.Extensions;
 using CollectW.Model;
+using CollectW.Providers;
 using CollectW.Services;
 
 namespace CollectW
@@ -16,10 +17,15 @@ namespace CollectW
         private ISupplyCounterDefinitions _definitionSupplier;
         private bool _running;
         private IEnumerable<ISendInfo> _sinks;
+        private ICounterIdentifierGenerator _counterIdentifierGenerator;
+        private IMachineNameProvider _machineNameProvider;
 
-        public Collector(ISupplyCounterDefinitions definitionSupplier, IEnumerable<ISendInfo> sinks)
+        public Collector(ISupplyCounterDefinitions definitionSupplier, IEnumerable<ISendInfo> sinks, IMachineNameProvider machineNameProvider = null, ICounterIdentifierGenerator counterIdentifierGenerator = null)
         {
             SetSupplier(definitionSupplier);
+            SetMachineNameProvider(machineNameProvider);
+            SetCounterIdentifierGenerator(counterIdentifierGenerator);
+
             _sinks = sinks.ToList();
             try
             {
@@ -35,6 +41,16 @@ namespace CollectW
                 Logger.ErrorFormat("error trying to configure the collector {@exception}", ex);
                 throw;
             }
+        }
+
+        private void SetMachineNameProvider(IMachineNameProvider machineNameProvider)
+        {
+            _machineNameProvider = machineNameProvider ?? new DefaultMachineNameProvider();
+        }
+
+        private void SetCounterIdentifierGenerator(ICounterIdentifierGenerator counterIdentifierGenerator)
+        {
+            _counterIdentifierGenerator = counterIdentifierGenerator ?? new DefaultCounterIdentifierGenerator();
         }
 
         public Collector(IConfigureCollector config) : this(config.Supplier, config.Sinks)
@@ -103,7 +119,7 @@ namespace CollectW
                     Interval interval = null;
                     if (!_counters.TryGetValue(counterDefinition.CollectIntervalSpan, out interval))
                     {
-                        interval = new Interval(counterDefinition.CollectIntervalSpan, sinks);
+                        interval = new Interval(counterDefinition.CollectIntervalSpan, sinks, _machineNameProvider, _counterIdentifierGenerator);
                         _counters.Add(counterDefinition.CollectIntervalSpan, interval);
                     }
                     interval.AddDefinition(counterDefinition);
