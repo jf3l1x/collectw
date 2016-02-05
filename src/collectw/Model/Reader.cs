@@ -48,7 +48,7 @@ namespace CollectW.Model
                 {
                     float value = _counter.NextValue();
                     //StatsD does not accept : in the identifier name
-                    Parallel.ForEach(sinks, (sink) => sink.Send(_counterIdentifierGenerator.Generate(_machineNameProvider, _definition).Replace(':',''), value));
+                    Parallel.ForEach(sinks, (sink) => sink.Send(_counterIdentifierGenerator.Generate(_machineNameProvider, _definition).Replace(":",string.Empty), value));
                    
                 }
                 catch (Exception ex)
